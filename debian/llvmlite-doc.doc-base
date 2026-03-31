@@ -1,0 +1,10 @@
+Document: llvmlite
+Title: Documentation of python-llvmlite
+Author: Continuum Analytics, Inc. <numba-users@continuum.io>
+Abstract: LLVM Python binding for writing JIT (just-in-time) compilers
+Section: Programming/Python
+
+Format: HTML
+Index: /usr/share/doc/llvmlite-doc/html/index.html
+Files: /usr/share/doc/llvmlite-doc/html/*.html
+

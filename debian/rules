@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+export DH_VERBOSE=1
+export PYBUILD_NAME=llvmlite
+export LLVM_CONFIG=/usr/lib/llvm-19/bin/llvm-config
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+
+export CXXFLAGS := $(shell DEB_CXXFLAGS_MAINT_APPEND=-fPIC dpkg-buildflags --get CXXFLAGS)
+export CXX_FLTO_FLAGS=
+export LD_FLTO_FLAGS=
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+override_dh_auto_test:
+# prevent tests break if armhf/armel is build for, see #917252
+ifneq (,$(filter $(DEB_HOST_ARCH),armhf armel))
+	dh_auto_test || true
+else
+	dh_auto_test
+endif
+
+override_dh_installdocs:
+	dh_installdocs -A README.rst
+
+execute_after_dh_installdocs-indep:
+	http_proxy='127.0.0.1:9' sphinx-build -N -bhtml docs/source/ debian/llvmlite-doc/usr/share/doc/llvmlite-doc/html/
+
+override_dh_installchangelogs:
+	dh_installchangelogs -A CHANGE_LOG
+
+override_dh_python3:
+	dh_python3 --no-ext-rename
+
+override_dh_gencontrol:
+	$(eval LLVM_VERSION := $(shell /usr/lib/llvm-20/bin/llvm-config --version | cut -d. -f1))
+	dh_gencontrol -- -Vllvm:Depends="libllvm$(LLVM_VERSION)"

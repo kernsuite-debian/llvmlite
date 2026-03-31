@@ -1,0 +1,61 @@
+Source: llvmlite
+Section: python
+Priority: optional
+Maintainer: LLVM Packaging Team <pkg-llvm-team@lists.alioth.debian.org>
+Uploaders: Athanaseus Javas Ramaila <aramaila@sarao.ac.za>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ python3-doc <!nodoc>,
+ python3:any | python3-all:any,
+ python3-all-dev,
+ python3-setuptools,
+ llvm-20-dev,
+ llvm-20-doc <!nodoc>,
+ cmake,
+ libedit-dev,
+ libzstd-dev,
+ libcurl4-openssl-dev,
+ pkg-config,
+Build-Depends-Indep:
+ dh-sequence-sphinxdoc,
+ python3-sphinx,
+ python3-sphinx-rtd-theme,
+Standards-Version: 4.7.2.0
+Homepage: https://llvmlite.pydata.org/
+Vcs-Git: https://salsa.debian.org/pkg-llvm-team/llvmlite.git
+Vcs-Browser: https://salsa.debian.org/pkg-llvm-team/llvmlite/
+X-Python3-Version: >= 3.12
+
+Package: python3-llvmlite
+Architecture: any
+Depends:
+ ${python3:Depends},
+ ${llvm:Depends},
+ ${misc:Depends},
+ ${shlibs:Depends}
+Suggests:
+ llvmlite-doc
+Description: LLVM Python 3 binding for writing JIT compilers
+ llvmlite uses the LLVM library for JIT (just-in-time) compilation of
+ Python code into native machine instructions during runtime. Instead
+ of exposing large parts of the LLVM C++ API for direct calls into the
+ LLVM library, llvmlite follows a lightweight multi-layered approach.
+ .
+ This package contains the modules and the binding for Python 3.
+
+Package: llvmlite-doc
+Section: doc
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${sphinxdoc:Depends}
+Suggests:
+ python3-llvmlite
+Description: LLVM Python binding for writing JIT compilers (docs)
+ llvmlite uses the LLVM library for JIT (just-in-time) compilation of
+ Python code into native machine instructions during runtime. Instead
+ of exposing large parts of the LLVM C++ API for direct calls into the
+ LLVM library, llvmlite follows a lightweight multi-layered approach.
+ .
+ This package contains the documentation and example code.
